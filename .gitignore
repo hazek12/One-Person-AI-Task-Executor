@@ -1,0 +1,122 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.tmp
+*.bak
+*.orig
+
+# Git disabled (old git objects)
+.git_disabled/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.trae/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+venv/
+env/
+.venv/
+
+# Configuration (keep templates, ignore actual configs)
+config.toml
+*.local.toml
+
+# Logs
+logs/
+*.log
+
+# Database files (user data)
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Runtime data
+data/schedules/
+data/completions/
+data/context/
+data/checkpoints/
+data/loop_progress/
+data/workflows/
+data/chat_history.json
+data/llm_cache/
+data/feedback/
+data/consensus_logs/
+data/dashboard/
+data/templates/
+data/reports/
+data/perf_metrics.json
+data/marketplace/
+data/backups/
+data/notifications/
+data/completions_cache.json
+data/settings.json
+data/onboarding.json
+data/knowledge/
+data/role_templates/
+data/custom_skills/
+data/*.db
+data/*.db-wal
+data/*.db-shm
+deliverables/
+output/
+reports/
+task_workspaces/
+
+# Test artifacts
+test_results.xml
+test-output.txt
+e2e-output.txt
+coverage/
+coverage.xml
+coverage.json
+.coverage
+.htmlcov/
+.pytest_cache/
+.benchmarks
+tests/e2e_results/
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+
+# Secrets and keys
+*.pem
+*.key
+secrets/
+
+# Encrypted storage
+.env.encrypted
+
+# Mock遗留
+MagicMock/
+
+# Streamlit secrets (keep config.toml tracked)
+.streamlit/secrets.toml
+
+# Type checking
+.mypy_cache/
+
+# Node
+node_modules/
+
+# Lock files
+requirements.lock
+
+# KDE
+.directory
+.dbg/

@@ -1,0 +1,17 @@
+include LICENSE
+include README.md
+include README-EN.md
+include README-JP.md
+include VERSION
+include .env.example
+include requirements.txt
+include requirements-dev.txt
+
+recursive-include opc_manager *.py *.typed *.yaml
+recursive-include frontend *.py
+
+exclude install.sh
+exclude start.sh
+recursive-exclude tests *
+recursive-exclude docs *
+recursive-exclude .github *
