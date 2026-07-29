@@ -1,0 +1,184 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel>=0.40"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "opc-agents"
+dynamic = ["version"]
+description = "Intelligent task execution system for one-person companies with multi-LLM backend support"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [
+    {name = "Lin Lu", email = "lin@example.com"},
+]
+keywords = [
+    "opc",
+    "agents",
+    "llm",
+    "ai",
+    "document-generation",
+    "business-intelligence",
+    "streamlit",
+    "claude",
+    "glm",
+    "openai",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Intended Audience :: Information Technology",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "streamlit>=1.30.0",
+    "openai>=1.10.0",
+    "cryptography>=41.0.0",
+    "python-dotenv>=1.0.0",
+    "PyJWT>=2.8.0",
+    "requests>=2.31.0",
+    "ddgs>=5.0.0",
+    "httpx>=0.24.0",
+    "beautifulsoup4>=4.12.0",
+    "jieba>=0.42.1",
+    "loguru>=0.7.0",
+    "pandas>=2.0.0",
+    "pydantic>=2.0.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-timeout>=2.2.0",
+    "black>=25.0.0",
+    "flake8>=7.0.0",
+    "bandit>=1.7.0",
+    "pip-audit>=2.7.0",
+    "mypy>=1.8.0",
+    "build>=1.0.0",
+    "twine>=5.0.0",
+]
+marketplace = [
+    "fastapi>=0.100.0",
+    "uvicorn>=0.23.0",
+    "sse-starlette>=1.6.0",
+]
+memory = [
+    "carrymem>=0.1.9,<0.4.0",
+]
+knowledge = [
+    "carrymem>=0.1.9,<0.4.0",
+]
+mcp = [
+    "fastapi>=0.100.0",
+    "uvicorn>=0.23.0",
+    "sse-starlette>=1.6.0",
+]
+export = [
+    "weasyprint>=62.0",
+    "openpyxl>=3.1.0",
+    "python-docx>=1.1.0",
+    "Pillow>=10.0.0",
+    "Jinja2>=3.1.0",
+    "markdown>=3.5.0",
+]
+all = [
+    "opc-agents[dev,marketplace,memory,knowledge,mcp,export]",
+]
+
+[project.scripts]
+opc-agents = "opc_manager.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/lulin70/OPC-Agents"
+Documentation = "https://github.com/lulin70/OPC-Agents#readme"
+Repository = "https://github.com/lulin70/OPC-Agents"
+Issues = "https://github.com/lulin70/OPC-Agents/issues"
+Changelog = "https://github.com/lulin70/OPC-Agents/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+include = ["opc_manager*", "frontend*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "opc_manager.version.__version__"}
+
+[tool.setuptools.package-data]
+opc_manager = ["py.typed", "persona_variants.yaml"]
+frontend = ["*.py"]
+
+[tool.pytest.ini_options]
+markers = [
+    "unit: Fast unit tests with no external dependencies (<1s each)",
+    "integration: Integration tests with mocked external services",
+    "e2e: End-to-end tests with real API calls (requires API keys)",
+    "e2e_search: Real DuckDuckGo search only (no LLM API key needed)",
+    "e2e_llm: Real LLM API call (requires MOKA_API_KEY or GLM_API_KEY)",
+    "e2e_core_skill: Real E2E for 3 core skills (email/finance/report, requires LLM API key)",
+    "security: Security-focused tests (injection, XSS, leakage)",
+]
+addopts = "-v --tb=short --strict-markers"
+
+[tool.mypy]
+# Mypy configuration — gradual typing adoption (TD-065, COMPLETE)
+# v0.3.7: disallow_untyped_defs enabled globally (30 modules pass).
+# v0.3.12-v0.3.14: All 83 modules annotated in 3 batches, per-module overrides eliminated.
+# Note: do NOT pin python_version — let mypy use runtime version so that
+# PEP 695 `type` statements in numpy 2.x stubs parse correctly on 3.12.
+warn_return_any = false
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = false
+check_untyped_defs = false
+ignore_missing_imports = true
+follow_imports = "silent"
+# Exclude mixin files (re-export heavy) and generated code
+exclude = [
+    "opc_manager/export/",
+    "opc_manager/i18n/locales/",
+    "tests/",
+]
+
+# Per-module overrides: ALL modules annotated (TD-065 Phase 3 complete)
+# v0.3.12: Batch 1 (46 modules) annotated and removed from overrides.
+# v0.3.13: Batch 2 (26 modules) annotated and removed from overrides.
+# v0.3.14: Batch 3 (11 modules) annotated — all 83 modules now fully typed.
+# Global disallow_untyped_defs = true applies to all modules.
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+# P2-14 虚拟分层: isort 配置作为"软约束"
+# 不在 select 中强制启用 I 规则（避免一次性改动 434 个文件违反 Surgical Changes），
+# 但配置 sections/known-first-party，让开发者在 IDE 或手动 `ruff check --select I --fix`
+# 时按 opc_manager 单列 section 排序，强化层次感知。
+[tool.ruff.lint.isort]
+section-order = [
+    "future",
+    "standard-library",
+    "third-party",
+    "opc_manager",
+    "first-party",
+    "local-folder",
+]
+sections.opc_manager = ["opc_manager"]
+
+[tool.ruff.lint.per-file-ignores]
+# app.py must run init steps (load_dotenv, init_monitoring, init_secure_storage)
+# before importing frontend modules — E402 is intentional for Streamlit bootstrap.
+"frontend/app.py" = ["E402"]
+# Test files dynamically modify sys.path before importing project modules.
+"tests/e2e/test_docker_deployment.py" = ["E402"]
