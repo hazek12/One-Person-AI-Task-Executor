@@ -15,7 +15,7 @@ sse-starlette>=1.6.0  # Required for mcp_transport.py SSE endpoint tests
 responses>=0.25.0  # v0.3.35 T7.2: HTTP mock library for test_simple_llm_service.py (replaces @patch("requests.post"))
 
 # UI E2E (真实浏览器自动化，满足 HARD_CONSTRAINTS Q1/Q2)
-playwright>=1.61.0
+playwright>=1.62.0
 
 # 代码质量
 black>=26.3.1
